@@ -1,5 +1,6 @@
 import string
 from fichier1 import message1
+alphabet = string.ascii_uppercase
 
 def clean(s, keep_space=False, keep_case=False):
     """Transforme une chaine en ascii, supprime la ponctuation
@@ -29,3 +30,24 @@ def clean(s, keep_space=False, keep_case=False):
 
     return s
 print(clean(message1, False, False))
+
+
+def frequences(text):
+        """
+        fontion qui renvoi la frequence d'apparition des lettres dans un texte passé en parametre
+        """
+        texte = clean(text,False,False)
+        freq = dict()
+        for l in texte:
+            if l in alphabet:
+                if l in freq:
+                    freq[l]+=1
+                else:
+                    freq[l]=1
+        for lettre in alphabet:
+            if lettre not in freq:
+                freq[lettre] = 0
+            else : 
+                freq[lettre] = freq[lettre]/len(text)*100
+        return freq
+print(frequences(clean(message1, False, False)))
