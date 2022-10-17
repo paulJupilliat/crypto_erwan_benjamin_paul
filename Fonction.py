@@ -1,3 +1,9 @@
+from re import T
+import string
+import fichier1
+
+ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
 FRENQUENCE_FRANCAIS = {
     'A': 7.636,
     'B': 0.901,
@@ -27,14 +33,64 @@ FRENQUENCE_FRANCAIS = {
     'Z': 0.326
 }
 
-def tableau_frequence(texte):
-    res = {}
-    for lettre in [ord(char.upper()) for char in texte]:
-        if lettre >= 65 and lettre <= 90:
-            if lettre not in res.keys():
-                res[lettre] = 0
-            res[lettre] += 1
-    return res
+def clean(s, keep_space=False, keep_case=False):
+    """Transforme une chaine en ascii, supprime la ponctuation
+    et les blancs. Si le second argumement est faux, passe tout en
+    majuscule."""
+    accents = "àèìòùáéíóúýâêîôûãñõäëïöüÿåçðø"
+    accents_trad = "aoiouaeiouyaeiouanoaeiouyacdo"
+    accents = accents + accents.upper()
+    accents_trad = accents_trad + accents_trad.upper()
+    tr = str.maketrans(accents, accents_trad)
+    s = s.translate(tr)
+
+    lettres_doubles = ["æ", "Æ", "œ", "Œ", "ß"]
+    lettres_doubles_trad = ["ae", "AE", "oe", "OE", "ss"]
+    for i, j in zip(lettres_doubles, lettres_doubles_trad):
+        s = s.replace(i, j)
+
+    for p in string.punctuation + "«»":
+        s = s.replace(p, "")
+
+    if not keep_space:
+        for p in string.whitespace:
+            s = s.replace(p, "")
+
+    if not keep_case:
+        s = s.upper()
+
+    return s
+
+def tableau_frequence(text):
+        """
+        fontion qui renvoi la frequence d'apparition des lettres dans un texte passé en parametre
+        """
+        texte = clean(text,False,False)
+        freq = dict()
+        for l in texte:
+            if l in ALPHABET:
+                if l in freq:
+                    freq[l]+=1
+                else:
+                    freq[l]=1
+        for lettre in ALPHABET:
+            if lettre not in freq:
+                freq[lettre] = 0
+            else : 
+                freq[lettre] = freq[lettre]/len(text)*100
+        return freq
+print(tableau_frequence(fichier1.message1))
+
+
+
+# def tableau_frequence(texte):
+#     res = {}
+#     for lettre in [ord(char.upper()) for char in texte]:
+#         if lettre >= 65 and lettre <= 90:
+#             if lettre not in res.keys():
+#                 res[lettre] = 0
+#             res[lettre] += 1
+#     return res
 
 def Ic(texte):
     ic = 0
@@ -83,3 +139,92 @@ print(5)
 print(Ic("Os dom sb kbrog : wf bok bykg-ewzbof ywm lwoxo r'wf zglmgf, hwol wf mbfug, hwol wf ygv-mkgm, hwol wf egmossgf dol bw ugwm rw pgwk. Rwmkgfe eibfmb rw Sbfndbff, Zbkzbkb wf dbrkoubs r'Bkbugf, Lmoei-Kbfrbss wf bok r' Borb."))
 print("mono")
 
+
+def decode_affine(texte):
+    #on regarde la frequence la plus haute de notre texte = e français
+    #on creer l'équation a deux inconnu 
+    #on obtient pls resultat A= et B= 
+    #on teste avec les autres lettre du texte 
+    #on compare la vague de frequence avec celle du language francais 
+    # on retourne le A et le b POUR LEQUEL LA DISTANCE EST LA MOINS GRANDE
+
+    # max_frequence = max(tableau_frequence(texte), key = lambda item:item.values())
+    texte = clean(texte)
+    liste_lettre_freq = [(val, lettre)for lettre, val in tableau_frequence(texte).items()]
+    
+    print(liste_lettre_freq)
+    lettre_plus_use = max(liste_lettre_freq)[1]
+    print(lettre_plus_use)
+    y = ALPHABET.index(lettre_plus_use)
+    x = ALPHABET.index("E") #on dis alors que x est la valeur de e car c'est la lettre avec la frequence la plus haute dans un dico français 
+    les_solutions = couple_solutions(y,x)
+    for solu in range(len(les_solutions)):
+        sol_freq = tableau_frequence(solu)
+        distance = dist(sol_freq, FRENQUENCE_FRANCAIS) 
+        distance_min = 0
+        if distance_min == 0 or distance < distance_min:
+            distance_min = distance
+            couple = solu
+    (A,B) = couple
+    texte_decode = ''
+    for lettre in texte:
+        lettre_decode = ALPHABET.index(lettre)*A +B
+        texte_decode += lettre_decode
+    return texte_decode
+    # for sol in range(len(les_solutions))
+    # tableau de fraquence de la solution1
+    # tableau de frequence de la solution 2
+    # ...
+    # 
+    # for tab in tableau de frequence_solution
+    # distance_min = 0
+    # tableau 
+    
+
+
+def couple_solutions(y, x):
+    """fonction retournant les différentes solutions différentes pour une équation avec B mod 26
+
+    Args:
+        y (int): une valeur %26
+        x (int): une valeur %26
+
+    Returns:
+        list[tuple]:la liste des tuples A et B solution de l'équation 
+    """
+    A = 0
+    B = 0
+    resultats = [(0,y)]
+    while B < 26:
+        A += 1
+        if A*x+B != y:
+            B=0
+            B+=1
+        else:
+            resultats.append(A,B)
+    return resultats
+        
+
+def dist(dico1, dico2):
+    """recherche la plujs petite distance entre deux dictionnaires
+
+        Args:
+            dico1 (dict): le premier dictionnaire
+            dico2 (dict): le second dictionnaire
+        Return:
+            int: la distance la plus petite entre deux clé des dictionnaire
+    """
+    distance = None
+    for lettre in dico1.keys():
+        for lettre2 in dico2.keys():
+            distance_test = abs(dico1[lettre] - dico2[lettre2])
+            if distance is None or distance_test < distance:
+                distance = distance_test
+                lettres = (lettre, lettre2)
+    return ALPHABET.index(lettres[0]) - ALPHABET.index(lettres[1])
+    
+    
+
+
+
+decode_affine(fichier1.message1)

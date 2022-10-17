@@ -84,3 +84,18 @@ def plus_proche_freq(frequence, dico_freq_langue):
     return min_trouve[0]
 
 print(correspondance(frequences(message1),fr_frequence))
+
+# en comparant les lettres avec leur correspondance dans le dico des frequences, nous pouvons établir qu'il s'agit bel et bien d'un codage monoalphabetique car beacoup de lettre comme "VK" se situe souvent dans cette ordre en un seul mot. On suppose que chaque lettre codé a donc une seule lettre decodé
+# Il ne s'agit pas du décryptage de cesar car un simple decalage ne permet de pas de décoder ce texte
+# Nous suppossons qu'il s'agit alors d'un cryptage de type affine
+
+    #on part du principe ou
+
+
+def dechiffrementAffine(a,b,L):
+    alphabet=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    x=alphabet.index(L)
+    y=(inverse(a)*(x-b))%26
+    return alphabet[y]
+    
+print(dechiffrementAffine(4,2,"A"))
