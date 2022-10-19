@@ -1,6 +1,15 @@
 import math
 import string
+from tokenize import String
 
+def construire_list_francais():
+    res = []
+    fichier = open("french.txt","r")
+    for ligne in fichier:
+        res.append(ligne[:-1])
+    return res
+
+mot_francais = sorted(construire_list_francais())
 
 FRENQUENCE_FRANCAIS = {
     'A': 7.636,
@@ -31,7 +40,7 @@ FRENQUENCE_FRANCAIS = {
     'Z': 0.326
 }
 
-def clean(s, keep_space=False, keep_case=False):
+def clean(s, keep_space=False, keep_case=False, keep_poncuation = False):
     """Transforme une chaine en ascii, supprime la ponctuation
     et les blancs. Si le second argumement est faux, passe tout en
     majuscule."""
@@ -46,9 +55,9 @@ def clean(s, keep_space=False, keep_case=False):
     lettres_doubles_trad = ["ae", "AE", "oe", "OE", "ss"]
     for i, j in zip(lettres_doubles, lettres_doubles_trad):
         s = s.replace(i, j)
-
-    for p in string.punctuation + "«»":
-        s = s.replace(p, "")
+    if not keep_poncuation:
+        for p in string.punctuation + "«»":
+            s = s.replace(p, "")
 
     if not keep_space:
         for p in string.whitespace:
@@ -140,19 +149,59 @@ def distance_texte(texte):
 def decode_HILL(texte):
     matrice = []
     valeur = None
-    for a in range(26):
-        for b in range(26):
-            for c in range(26):
-                for d in range(26):
+    for a in range(6):
+        for b in range(6):
+            for c in range(6):
+                for d in range(6):
                     if a*d - c*b != 0 or (inverse_matrice_mod_26([a, b, c, d]) is not None):
                         texte_traduit = decode_avec_matrice(texte, [a, b, c, d])
                         if texte_traduit is not None:
                             distance = distance_texte(texte_traduit)
-                            if valeur is None or distance < valeur:
-                                valeur = distance
-                                matrice = [a,b,c,d]
+                            if est_francais(texte_traduit, texte):
+                                print(distance)
+                                print(valeur)
+                                if valeur is None:
+                                    valeur = distance
+                                    matrice = [a,b,c,d]
+                                elif distance < valeur:
+                                    valeur = distance
+                                    matrice = [a,b,c,d]
     print(matrice)
-    return decode_avec_matrice(texte, matrice)
+    return passe_francais(decode_avec_matrice(texte, matrice),texte)
+
+def decoupe_phrase(texte: str) -> list[str]:
+    texte_pre_decoupe = clean(texte,True,True,False)
+    res = texte_pre_decoupe.split()
+    return res
+
+def est_francais(textetraduit,texte):
+    texte_francais = sorted(decoupe_phrase(passe_francais(textetraduit,texte).lower()))
+    index_texte = 0
+    index_mot = 0
+    nombre_mot_francais = 0
+    while index_texte < len(texte_francais) and index_mot < len(mot_francais):
+        if texte_francais[index_texte] < mot_francais[index_mot]:
+            index_texte += 1
+        elif texte_francais[index_texte] > mot_francais[index_mot]:
+            index_mot += 1
+        else:
+            index_texte += 1
+            nombre_mot_francais += 1
+    return nombre_mot_francais/len(texte_francais) > 0.7
+
+def passe_francais(textetraduit, texte):
+    res = ""
+    cpt = 0
+    for caractere in clean(texte,True,True,True):
+        if ord(caractere) >= 65 and ord(caractere) <= 90:
+            res += textetraduit[cpt].upper()
+            cpt += 1
+        elif ord(caractere) >= 97 and ord(caractere) <= 122:
+            res += textetraduit[cpt].lower()
+            cpt += 1
+        else:
+            res += caractere
+    return res
 
 def decoupe_bloc_en_deux(texte):
     res = []
@@ -166,6 +215,9 @@ def decoupe_bloc_en_deux(texte):
             cpt = 0
             res.append(block)
             block = []
+    if cpt == 1:
+        block.append(0)
+        res.append(block)
     return res
 
 
@@ -180,7 +232,6 @@ def decode_avec_matrice(texte, matrice):
         res += chr(((block[0] * inverse_matrice[2] + block[1] * inverse_matrice[3])%26+65))
     return res
 
-
 print(inverse_matrice_mod_26([2,3,1,5]))
 # print(1)
 # print(Ic("Huyzu Izxk u'hoovihvy eht h wzopvo. Vk hkkdph. Tzu Ahc phojdhvy pvudvy ivuly. Vk ezdtth du eozgzuw tzdevo, t'httvy whut tzu kvy, t'heedxhuy tdo tzu ezkzrqzu. Vk eovy du ozphu, vk k'zdiovy, vk kdy; phvt vk u'x thvtvtthvy jd'du vpmozlkvz rzugdt, vk mdyhvy h yzdy vutyhuy tdo du pzy wzuy vk vluzohvy kh tvluvgvrhyvzu. Vk hmhuwzuuh tzu ozphu tdo tzu kvy. Vk hkkh h tzu khihmz; vk pzdvkkh du lhuy jd'vk ehtth tdo tzu gozuy, tdo tzu rzd."))
@@ -191,7 +242,8 @@ print(inverse_matrice_mod_26([2,3,1,5]))
 # print(3)
 # print(Ic("Sop u'dffrmtfe oz qvigpjcm, bh nnaqhd iw hcbvrl dvercy, h d'youcxlmdc zpzirn, ay eg xpzzht, qy eg xohirgxpb, ymsu lstlhf bh zhkhakc, z'lbnnecvz, layoanfe bh bidv g'dlky. Oy x'txdwiyoh, gnvxnnt w'txwlkhr g'bh uuhr oju, nyor v'nnaqhd dwvz akl ojr, erdpzhyomennv innr vn nmim tqvfe om'xl yof qv x'cmksxluzf."))
 print(decode_HILL("Sop u'dffrmtfe oz qvigpjcm, bh nnaqhd iw hcbvrl dvercy, h d'youcxlmdc zpzirn, ay eg xpzzht, qy eg xohirgxpb, ymsu lstlhf bh zhkhakc, z'lbnnecvz, layoanfe bh bidv g'dlky. Oy x'txdwiyoh, gnvxnnt w'txwlkhr g'bh uuhr oju, nyor v'nnaqhd dwvz akl ojr, erdpzhyomennv innr vn nmim tqvfe om'xl yof qv x'cmksxluzf."))
-print(decode_avec_matrice("Sop u'dffrmtfe oz qvigpjcm, bh nnaqhd iw hcbvrl dvercy, h d'youcxlmdc zpzirn, ay eg xpzzht, qy eg xohirgxpb, ymsu lstlhf bh zhkhakc, z'lbnnecvz, layoanfe bh bidv g'dlky. Oy x'txdwiyoh, gnvxnnt w'txwlkhr g'bh uuhr oju, nyor v'nnaqhd dwvz akl ojr, erdpzhyomennv innr vn nmim tqvfe om'xl yof qv x'cmksxluzf.",[2,3,1,5]))
+texte = "Sop u'dffrmtfe oz qvigpjcm, bh nnaqhd iw hcbvrl dvercy, h d'youcxlmdc zpzirn, ay eg xpzzht, qy eg xohirgxpb, ymsu lstlhf bh zhkhakc, z'lbnnecvz, layoanfe bh bidv g'dlky. Oy x'txdwiyoh, gnvxnnt w'txwlkhr g'bh uuhr oju, nyor v'nnaqhd dwvz akl ojr, erdpzhyomennv innr vn nmim tqvfe om'xl yof qv x'cmksxluzf."
+# print(passe_francais(decode_avec_matrice(texte,[2,3,1,5]),texte))
 # print("poly")
 # print(4)
 # print(Ic("Zc krgfkr u'le ufzxk le rzi drikzrc jli c'fscfex tyrjjzj ul mrjzjkrj. Zc flmizk jfe wizxf dlirc, zc gizk ul crzk wifzu, zc slk le xireu sfc. Zc j'rgrzjrzk. Zc j'rjjzk jli jfe tfjp, zc gizk le aflierc hl'zc gritflilk u'le rzi uzjkirzk. Zc rccldr le tzxrizccf hl'zc wldr aljhl'rl sflk hlfzhl'zc kiflmrk jfe griwld ziizkrek. Zc kfljjr."))
