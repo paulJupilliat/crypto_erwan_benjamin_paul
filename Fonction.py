@@ -1,6 +1,5 @@
 import math
 import string
-from tokenize import String
 
 def construire_list_francais():
     res = []
