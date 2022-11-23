@@ -474,12 +474,12 @@ def decryptage_vignere_sans_cle(texte : str) -> str:
         frequencetraduit = tableau_frequence(texte_traduit)
         distance = distance_texte(texte_traduit)
         if valeurrapprochement is None or distance < valeurrapprochement:
-            if est_francais(texte_traduit):
+            if est_francais(texte_traduit, texte):
                 valeurrapprochement = distance
                 phrasedecrypte = texte_traduit
     return phrasedecrypte
 
-def auto_decode(texte : str) -> str:
+def auto_decode(texte : str) -> tuple[str, str]:
     """fonction qui décode un texte si il a été codé avec
     cesar, affinne, Hill ou vignere
 
@@ -487,27 +487,21 @@ def auto_decode(texte : str) -> str:
         texte (str): le texte à décrypter
 
     Returns:
-        str: le texte décrypter
+        tuple[str, str]: la méthode utilisé et le texte décrypté
     """
     if Ic(texte) > 0.04:
         texte_ceasar = decodecesar(texte)
         if est_francais_simple(texte_ceasar):
-            return passe_francais(clean(texte_ceasar),texte)
+            return ("codé avec cesar", passe_francais(clean(texte_ceasar),texte))
         else:
             texte_affinne = decode_affine(texte)
             if est_francais_simple(texte_affinne):
-                return texte_affinne
+                return ("codé avec affine", texte_affinne)
             else:
-                return "subsitution"
+                return ("codé avec subsitution", "en cour de developpement")
     else:
         if longueurclev(texte) == 2:
-            return "decode_HILL(texte)"
+            return ("codé avec Hill", decode_HILL(texte))
         else:
-            return "decryptage_vignere_sans_cle(texte)"
-        
+            return ("codé avec vignère", decryptage_vignere_sans_cle(texte))
 
-print(auto_decode("Huyzu Izxk u'hoovihvy eht h wzopvo. Vk hkkdph. Tzu Ahc phojdhvy pvudvy ivuly. Vk ezdtth du eozgzuw tzdevo, t'httvy whut tzu kvy, t'heedxhuy tdo tzu ezkzrqzu. Vk eovy du ozphu, vk k'zdiovy, vk kdy; phvt vk u'x thvtvtthvy jd'du vpmozlkvz rzugdt, vk mdyhvy h yzdy vutyhuy tdo du pzy wzuy vk vluzohvy kh tvluvgvrhyvzu. Vk hmhuwzuuh tzu ozphu tdo tzu kvy. Vk hkkh h tzu khihmz; vk pzdvkkh du lhuy jd'vk ehtth tdo tzu gozuy, tdo tzu rzd."))
-print(auto_decode("Dwi gsftn seebvzx ezjg jzzo. Zp ldvzx npvlh. Tt jlzcqo jsy dvjmdbvj, wnzpke wi ilme. Qg wetavzx owpo. Yy jmlme qiumdbdege ujexlqo uy qipssfzb. Lr nimzpwwi, gpfa gfycl ll'yy ogrw, atpj wzcmu uf'ci ksnade, twcn gvznjeh bc'pe fzcmusy, vje pzqi, jsyvv kvzqn tsfxn. Uy niirp Didex-Ximkmy, ci tplxjkmd xgrmybdw wtoirplqo lr npvceyl llm ainjetb."))
-print(auto_decode("Sop u'dffrmtfe oz qvigpjcm, bh nnaqhd iw hcbvrl dvercy, h d'youcxlmdc zpzirn, ay eg xpzzht, qy eg xohirgxpb, ymsu lstlhf bh zhkhakc, z'lbnnecvz, layoanfe bh bidv g'dlky. Oy x'txdwiyoh, gnvxnnt w'txwlkhr g'bh uuhr oju, nyor v'nnaqhd dwvz akl ojr, erdpzhyomennv innr vn nmim tqvfe om'xl yof qv x'cmksxluzf."))
-print(auto_decode("Zc krgfkr u'le ufzxk le rzi drikzrc jli c'fscfex tyrjjzj ul mrjzjkrj. Zc flmizk jfe wizxf dlirc, zc gizk ul crzk wifzu, zc slk le xireu sfc. Zc j'rgrzjrzk. Zc j'rjjzk jli jfe tfjp, zc gizk le aflierc hl'zc gritflilk u'le rzi uzjkirzk. Zc rccldr le tzxrizccf hl'zc wldr aljhl'rl sflk hlfzhl'zc kiflmrk jfe griwld ziizkrek. Zc kfljjr."))
-print(auto_decode("Os dom sb kbrog : wf bok bykg-ewzbof ywm lwoxo r'wf zglmgf, hwol wf mbfug, hwol wf ygv-mkgm, hwol wf egmossgf dol bw ugwm rw pgwk. Rwmkgfe eibfmb rw Sbfndbff, Zbkzbkb wf dbrkoubs r'Bkbugf, Lmoei-Kbfrbss wf bok r' Borb."))
