@@ -5,6 +5,7 @@
   - [Sommaire](#sommaire)
   - [Ex1](#ex1)
     - [Algo Diffie-Hellman](#algo-diffie-hellman)
+    - [Vulnérabilité](#vulnérabilité)
 
 ## Ex1
 1) Nous allons détailler le protocole Diffie-Hellman. 
@@ -15,7 +16,7 @@ Il repose sur le logarithme discret.
 
 Pers1 et Pers2 génèrent ensemble deux nombres:  
 - <span style="color: red">p</span> (un nombre premier)  
-- <span style="color: red">g</span> (un nombre aléatoire > p)  
+- <span style="color: red">g</span> (un nombre aléatoire < p)  
 
 -----
 
@@ -40,9 +41,17 @@ Pers2 calcule la clé secrète <span style="color: red">s</span>:
 Ce qui est égale à <span style="color: red">(g<sup>a</sup><sup>b</sup>) mod p</span>
 
 -----
+### Vulnérabilité
 Ce protoole est vulnérable à une attaque sandwitch.  
-    Une personne intersepte le message de Pers1 calcul un By et l'envoie à Pers1 (il se fait passer pour Pers2).
-    Puis il envoie  le message de Pers1 à Pers2 (il se fait passer pour Pers1).
-    Ils pensent passer directement l'un à l'autre mais en réalité ils passent par l'intermédiaire.
+    Une personne intersepte le message de Pers1 calcul un By et l'envoie à Pers1 (il se fait passer pour Pers2).  
+    Puis il envoie  le message de Pers1 à Pers2 (il se fait passer pour Pers1).   
+    Ils pensent passer directement l'un à l'autre mais en réalité ils passent par l'intermédiaire.   
+
+-----
+Comme le logarithme discret est difficile à calculer, il est impossible de retrouver <span style="color: red">a</span> ou <span style="color: red">b</span> à partir de <span style="color: red">Ax</span> ou <span style="color: red">By</span>.
+
+Il partage le problème du logarythme discret:   
+si on a la valeur de g, p et g<sup>a mod p</sup> on ne peut pas trouver la valeur de a
+
 
     
