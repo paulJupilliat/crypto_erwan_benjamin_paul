@@ -1,6 +1,6 @@
 from math import sqrt
 from random import randint
-from .Personne import Personne
+from Personne import Personne
 
 
 def est_premier(n):
@@ -31,7 +31,7 @@ def genere_nombre_premier(max):
         n = randint(2, max)
     return n
 
-def diffie_hellman():
+def diffie_hellman_generation_cle():
     """Algorithme de Diffie-Hellman
     """
     # Initialisation des deux personnes
@@ -57,4 +57,18 @@ def diffie_hellman():
     # retourne les personnes pour les utiliser 
     return personne1, personne2
 
-diffie_hellman()
+if __name__ == "__main__":
+    personne1, personne2 = diffie_hellman_generation_cle()
+    personne3, personne4 = diffie_hellman_generation_cle()
+    message = "Bonjour"
+    message_chiffre = personne1.envoie_message(message)
+    print(f"La première personne envoie: {message_chiffre}")
+    message_essaie_dechiffre = personne3.recoit_message(message_chiffre)
+    message_dechiffre = personne2.recoit_message(message_chiffre)
+    print(f"La deuxième personne la décrypte: {message_dechiffre}")
+    print(f"La troisième personne essaie de décrypter: {message_essaie_dechiffre} \n \n")
+    message_chiffre_2 = personne2.envoie_message("Salut")
+    message_dechiffre_2 = personne1.recoit_message(message_chiffre_2)
+    print(f"La deuxième personne envoie: {message_chiffre_2}")
+    print(f"La première personne la décrypte: {message_dechiffre_2}")
+    print(f"La troisième personne essaie de décrypter: {personne3.recoit_message(message_chiffre_2)}")
