@@ -41,3 +41,29 @@ class Personne:
             int: la clé partagée
         """
         return self.__cle
+
+    def envoie_message(self, message: str) -> str:
+        """Envoie un message à l'autre personne en le chiffrant
+        Args:
+            message (str): le message à envoyer
+        Returns:
+            str: le message chiffré
+        """
+        message_chiffre = ""
+        for lettre in message:
+            message_chiffre += chr(ord(lettre) + self.__cle)
+        return message_chiffre
+    
+    def recoit_message(self, message: str) -> str:
+        """Reçoit un message chiffré avec diffie Helman
+
+        Args:
+            message (str): Le message reçu
+
+        Returns:
+            str: Le message décodé
+        """
+        message_decode = ""
+        for lettre in message:
+            message_decode += chr(ord(lettre) - self.__cle)
+        return message_decode
