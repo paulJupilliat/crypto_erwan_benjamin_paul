@@ -1,4 +1,4 @@
-from ..diffie_hellman import *
+from ...diffie_hellman_main import *
 
 
 def test_est_premier():

@@ -1,6 +1,7 @@
 from math import sqrt
 from random import randint
 from Personne import Personne
+from brut_force import brut_force_diffie_hellman
 
 
 def est_premier(n):
@@ -72,3 +73,5 @@ if __name__ == "__main__":
     print(f"La deuxième personne envoie: {message_chiffre_2}")
     print(f"La première personne la décrypte: {message_dechiffre_2}")
     print(f"La troisième personne essaie de décrypter: {personne3.recoit_message(message_chiffre_2)}")
+
+    print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(message_chiffre_2, personne1.len_cle())}")

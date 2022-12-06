@@ -67,3 +67,10 @@ class Personne:
         for lettre in message:
             message_decode += chr(ord(lettre) - self.__cle)
         return message_decode
+
+    def len_cle(self) -> int:
+        """Renvoie la longueur de la clé
+        Returns:
+            int: la longueur de la clé
+        """
+        return len(str(self.__cle))
