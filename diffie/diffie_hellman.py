@@ -1,6 +1,5 @@
 from math import sqrt
 from random import randint
-
 from .Personne import Personne
 
 
@@ -19,7 +18,6 @@ def est_premier(n):
         if n % i == 0:
             return False
     return True
-
 
 def genere_nombre_premier(max):
     """Génère un nombre premier inférieur à max
@@ -58,6 +56,5 @@ def diffie_hellman():
     
     # retourne les personnes pour les utiliser 
     return personne1, personne2
-
 
 diffie_hellman()

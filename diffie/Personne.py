@@ -41,5 +41,3 @@ class Personne:
             int: la clé partagée
         """
         return self.__cle
-    
-    
