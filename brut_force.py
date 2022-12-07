@@ -1,7 +1,6 @@
 # Fonction qui brut force diffie helman:
 from Chrono import Chronometre
-from ..fonction import est_francais_simple
-
+from fonction import est_francais_simple
 
 def brut_force_diffie_hellman(message: str, len_cle: int) -> str:
     """Brut force diffie hellman en connaissant la longueur de la clé
@@ -12,7 +11,7 @@ def brut_force_diffie_hellman(message: str, len_cle: int) -> str:
         str: le message décodé
     """
     chrono = Chronometre()
-    for i in range(2**len_cle):
+    for i in range(int("9"*len_cle)):
         chrono.affiche_chrono()
         message_decode = ""
         for lettre in message:

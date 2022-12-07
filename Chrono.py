@@ -9,7 +9,7 @@ class Chronometre:
     def stop(self):
         self.end = time.time()
         self.elapsed.append(self.end - self.start)
-        print("Temps écoulé: ", self.end - self.start)
+        print("Fin du chrono: ", self.end - self.start)
         return self.end - self.start
 
     def restart(self):

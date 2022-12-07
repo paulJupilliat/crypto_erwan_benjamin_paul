@@ -51,7 +51,7 @@ class Personne:
         """
         message_chiffre = ""
         for lettre in message:
-            message_chiffre += chr(ord(lettre) + self.__cle)
+                message_chiffre += chr((ord(lettre) + self.__cle))
         return message_chiffre
     
     def recoit_message(self, message: str) -> str:
