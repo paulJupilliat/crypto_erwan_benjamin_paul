@@ -3,9 +3,23 @@
 ## Sommaire
 - [Réponses](#réponses)
   - [Sommaire](#sommaire)
+  - [Algorithme discret](#algorithme-discret)
+    - [Définition](#définition)
   - [Ex1](#ex1)
     - [Algo Diffie-Hellman](#algo-diffie-hellman)
     - [Vulnérabilité](#vulnérabilité)
+
+## Algorithme discret
+### Définition
+G un groupe cyclique d'ordre *n* engendré par *g*. Tous *x* ∈ G peut s'écrire:
+    <span style="color: red"> x = g<sup>α</sup>
+    avec 0 ≤ α < *n*
+    <span style="color: red">α</span> noté <span style="color: red"> log<sub>g</sub>(x)</span> est le log discret de *x* en base *g*
+
+Si G est un groupe de point appartenant à une courbe élliptique(courbe non singulière), sur un corp fini, le meilleur algorithme pour calculer le logarythme discret 
+est le pgcd étendu.
+
+Il est la base de tous les moyens de cryptage à clé publique aujourd'hui utilisé. 
 
 ## Ex1
 1) Nous allons détailler le protocole Diffie-Hellman. 
@@ -42,7 +56,7 @@ Ce qui est égale à <span style="color: red">(g<sup>a</sup><sup>b</sup>) mod p<
 
 -----
 ### Vulnérabilité
-Ce protoole est vulnérable à une attaque sandwitch.  
+Ce protoole est vulnérable à une attaque man in the middle.  
     Une personne intersepte le message de Pers1 calcul un By et l'envoie à Pers1 (il se fait passer pour Pers2).  
     Puis il envoie  le message de Pers1 à Pers2 (il se fait passer pour Pers1).   
     Ils pensent passer directement l'un à l'autre mais en réalité ils passent par l'intermédiaire.   

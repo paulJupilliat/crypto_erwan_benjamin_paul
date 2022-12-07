@@ -40,7 +40,7 @@ def diffie_hellman_generation_cle():
     personne2 = Personne()
 
     # Génération de la clé publique
-    p = genere_nombre_premier(1000)
+    p = genere_nombre_premier(10000)
     g = genere_nombre_premier(p-1)
 
     # On envoie la clé publique à chaque personne

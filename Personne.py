@@ -2,7 +2,7 @@ from random import randint
 
 class Personne:
     def __init__(self):
-        self.__cle_prive = randint(1, 1000)
+        self.__cle_prive = randint(1, 100000)
         self.cle_publique = None # (g, p)
         self.cle_partagee = None #Clé reçue par l'autre personne
         self.__cle = None #Clé calculée
@@ -51,7 +51,7 @@ class Personne:
         """
         message_chiffre = ""
         for lettre in message:
-                message_chiffre += chr((ord(lettre) + self.__cle))
+                message_chiffre += chr((ord(lettre) * self.__cle))
         return message_chiffre
     
     def recoit_message(self, message: str) -> str:
@@ -65,7 +65,7 @@ class Personne:
         """
         message_decode = ""
         for lettre in message:
-            message_decode += chr(ord(lettre) - self.__cle)
+            message_decode += chr((ord(lettre) // self.__cle))
         return message_decode
 
     def len_cle(self) -> int:

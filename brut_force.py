@@ -11,11 +11,12 @@ def brut_force_diffie_hellman(message: str, len_cle: int) -> str:
         str: le message décodé
     """
     chrono = Chronometre()
-    for i in range(int("9"*len_cle)):
-        chrono.affiche_chrono()
+    for i in range(1, int("9"*len_cle)):
+        # chrono.affiche_chrono()
         message_decode = ""
         for lettre in message:
-            message_decode += chr(ord(lettre) - i)
+            message_decode += chr(ord(lettre) // i)
         if est_francais_simple(message_decode):
             chrono.stop()
             return message_decode
+    return "pas trouvé"
