@@ -34,13 +34,16 @@ def genere_nombre_premier(max):
 
 def diffie_hellman_generation_cle():
     """Algorithme de Diffie-Hellman
+    Returns:
+        Personne, Personne: les deux personnes
+        Xa, Yb: les clés écchangées
     """
     # Initialisation des deux personnes
     personne1 = Personne()
     personne2 = Personne()
 
     # Génération de la clé publique
-    p = genere_nombre_premier(10000)
+    p = genere_nombre_premier(1000)
     g = genere_nombre_premier(p-1)
 
     # On envoie la clé publique à chaque personne
@@ -48,30 +51,61 @@ def diffie_hellman_generation_cle():
     personne2.set_cle_publique((g, p))
 
     # Génère et échange les clés
-    personne1.set_cle_partagee(personne2.genere_echange())
-    personne2.set_cle_partagee(personne1.genere_echange())
+    Xa = personne1.genere_echange()
+    Yb = personne2.genere_echange()
+    personne1.set_cle_partagee(Yb)
+    personne2.set_cle_partagee(Xa)
 
     # Calcul de la clé partagée
     personne1.genere_cle()
     personne2.genere_cle()
     
     # retourne les personnes pour les utiliser 
-    return personne1, personne2
+    return personne1, personne2, Xa, Yb
 
 if __name__ == "__main__":
-    personne1, personne2 = diffie_hellman_generation_cle()
-    personne3, personne4 = diffie_hellman_generation_cle()
-    message = "Bonjour"
-    message_chiffre = personne1.envoie_message(message)
-    print(f"La première personne envoie: {message_chiffre}")
-    message_essaie_dechiffre = personne3.recoit_message(message_chiffre)
-    message_dechiffre = personne2.recoit_message(message_chiffre)
-    print(f"La deuxième personne la décrypte: {message_dechiffre}")
-    print(f"La troisième personne essaie de décrypter: {message_essaie_dechiffre} \n \n")
-    message_chiffre_2 = personne2.envoie_message("Salut")
-    message_dechiffre_2 = personne1.recoit_message(message_chiffre_2)
-    print(f"La deuxième personne envoie: {message_chiffre_2}")
-    print(f"La première personne la décrypte: {message_dechiffre_2}")
-    print(f"La troisième personne essaie de décrypter: {personne3.recoit_message(message_chiffre_2)}")
+    print("╒" + "═" * 50 + "╕")
+    print("│" + " " * 15 + "Diffie Hellman" + " " * 15 + "│")
+    print("╘" + "═" * 50 + "╛")
+    print("│  1. Cas exemple" + " " * 35 + "│")
+    print("│  2. Tester" + " " * 36 + "│")
+    print("╘" + "═" * 50 + "╛")
+    choix = input("Choix: ")
+    if choix == "1":
+        print("╒" + "═" * 50 + "╕")
+        personne1, personne2, _, _ = diffie_hellman_generation_cle()
+        personne3, personne4, _, _ = diffie_hellman_generation_cle()
+        message = "Bonjour ceci est un test de la crypto Diffie Hellman !"
+        message_chiffre = personne1.envoie_message(message)
+        print(f"La première personne envoie: {message_chiffre}")
+        message_essaie_dechiffre = personne3.recoit_message(message_chiffre)
+        message_dechiffre = personne2.recoit_message(message_chiffre)
+        print(f"La deuxième personne la décrypte: {message_dechiffre}")
+        print(f"La troisième personne essaie de décrypter: {message_essaie_dechiffre} \n \n")
+        message_chiffre_2 = personne2.envoie_message("Oh le fameuse technique de Diffie Hellman, essaye de me décrypter !")
+        message_dechiffre_2 = personne1.recoit_message(message_chiffre_2)
+        print(f"La deuxième personne envoie: {message_chiffre_2}")
+        print(f"La première personne la décrypte: {message_dechiffre_2}")
+        print(f"La troisième personne essaie de décrypter: {personne3.recoit_message(message_chiffre_2)}")
 
-    print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(message_chiffre_2, personne1.len_cle())}")
+        print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(message_chiffre_2, personne1.len_cle())}")
+        print("╘" + "═" * 50 + "╛")
+    elif choix == "2":
+        personne1, personne2 = diffie_hellman_generation_cle()
+        message = input("Message à envoyer: ")
+        message_chiffre = personne1.envoie_message(message)
+        print(f"La première personne envoie: {message_chiffre}")
+        message_dechiffre = personne2.recoit_message(message_chiffre)
+        print(f"La deuxième personne la décrypte: {message_dechiffre}")
+
+        print("╒" + "═" * 50 + "╕")
+        print("│ 1. Brut force" + " " * 36 + "│")
+        print("│ 2. Quitter" + " " * 37 + "│")
+        print("╘" + "═" * 50 + "╛")
+        choix = input("Choix: ")
+        if choix == "1":
+            print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(message_chiffre, personne1.len_cle())}")
+        elif choix == "2":
+            exit()
+        else:
+            print("Choix invalide")

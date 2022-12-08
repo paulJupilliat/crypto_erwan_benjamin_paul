@@ -8,6 +8,8 @@
   - [Ex1](#ex1)
     - [Algo Diffie-Hellman](#algo-diffie-hellman)
     - [Vulnérabilité](#vulnérabilité)
+      - [Man in the middle](#man-in-the-middle)
+      - [Meet in the middle](#meet-in-the-middle)
 
 ## Algorithme discret
 ### Définition
@@ -56,6 +58,7 @@ Ce qui est égale à <span style="color: red">(g<sup>a</sup><sup>b</sup>) mod p<
 
 -----
 ### Vulnérabilité
+#### Man in the middle
 Ce protoole est vulnérable à une attaque man in the middle.  
     Une personne intersepte le message de Pers1 calcul un By et l'envoie à Pers1 (il se fait passer pour Pers2).  
     Puis il envoie  le message de Pers1 à Pers2 (il se fait passer pour Pers1).   
@@ -67,5 +70,11 @@ Comme le logarithme discret est difficile à calculer, il est impossible de retr
 Il partage le problème du logarythme discret:   
 si on a la valeur de g, p et g<sup>a mod p</sup> on ne peut pas trouver la valeur de a
 
+------
 
+#### Meet in the middle
+C = encode(encode(message))
+P = decode(decode(C))
+
+On va brut force C et P en même temps. Lorsque l'on trouvera une clé identique, on aura trouvé la bonne clé.
     
