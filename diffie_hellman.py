@@ -88,7 +88,9 @@ if __name__ == "__main__":
         print(f"La première personne la décrypte: {message_dechiffre_2}")
         print(f"La troisième personne essaie de décrypter: {personne3.recoit_message(message_chiffre_2)}")
 
-        print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(message_chiffre_2, personne1.len_cle())}")
+        print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(message_chiffre, personne1.len_cle_pvr(), personne1.get_cle_a_partage(), personne2.len_cle(), personne2.get_cle_a_partage(), personne1.get_cle_publique()[0], personne1.get_cle_publique()[1] )}")
+        print(f" cle pvr{personne1.get_cle_pvr()}, {personne2.get_cle_pvr()}")
+        print(f"personne1 {personne1.get_cle_a_partage()} personne2 {personne2.get_cle_a_partage()}")
         print("╘" + "═" * 50 + "╛")
     elif choix == "2":
         personne1, personne2 = diffie_hellman_generation_cle()

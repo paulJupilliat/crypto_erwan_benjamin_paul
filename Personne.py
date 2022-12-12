@@ -5,6 +5,7 @@ class Personne:
     def __init__(self):
         self.__cle_prive = randint(1, 1000)
         self.cle_publique = None  # (g, p)
+        self.cle_a_partagee = None #Clé a partager à l'autre user
         self.cle_partagee = None  # Clé reçue par l'autre personne
         self.__cle = None  # Clé calculée
 
@@ -29,7 +30,8 @@ class Personne:
         Returns:
             int: le int à envoyer à l'autre personne
         """
-        return self.cle_publique[0]**self.__cle_prive % self.cle_publique[1]
+        self.cle_a_partagee = self.cle_publique[0]**self.__cle_prive % self.cle_publique[1]
+        return self.cle_a_partagee
 
     def genere_cle(self) -> int:
         """Génère la clé partagée
@@ -37,7 +39,7 @@ class Personne:
         self.__cle = self.cle_partagee**self.__cle_prive % self.cle_publique[1]
 
     def get_cle(self) -> int:
-        """Renvoie la clé partagée
+        """Renvoie la clé partagée par l'autre personne
         Returns:
             int: la clé partagée
         """
@@ -76,4 +78,31 @@ class Personne:
             int: la longueur de la clé
         """
         return len(str(self.__cle))
+    
+    def len_cle_pvr(self) -> int:
+        """Renvoie la longueur de la clé secrète
+        Retruns:
+            int: la longueure de la clé secrète
+        """
+        return len(str(self.__cle_prive))
 
+    def get_cle_publique(self) ->tuple[int, int]:
+        """Renvoie la clé publique
+        Return:
+            int, int: p, q
+        """
+        return self.cle_publique[1], self.cle_publique[0]
+    
+    def get_cle_pvr(self):
+        """Renvoie la clé secrète de la personne
+        Returns:
+            int: la clé secrète de la personne
+        """
+        return self.__cle_prive
+
+    def get_cle_a_partage(self) -> int:
+        """Renvoir la clé que la personne doit partager
+        Returns:
+            int : La clé à partager
+        """
+        return self.cle_a_partagee

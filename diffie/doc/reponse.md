@@ -56,6 +56,10 @@ Pers2 calcule la clé secrète <span style="color: red">s</span>:
 <span style="color: red">(g<sup>a</sup><sup>b</sup>) mod p</span>  
 Ce qui est égale à <span style="color: red">(g<sup>a</sup><sup>b</sup>) mod p</span>
 
+------
+
+<img src="../img/schema diffie"/>
+
 -----
 ### Vulnérabilité
 #### Man in the middle
