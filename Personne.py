@@ -1,3 +1,4 @@
+import math
 from random import randint
 
 
@@ -17,6 +18,14 @@ class Personne:
         """
         self.cle_publique = cle_publique
 
+    def set_cle_prive(self, cle_privee: int) -> None:
+        """Set la clé privee
+
+        Args:
+            cle_publique (int, int): la clé publique
+        """
+        self.__cle_prive = cle_privee
+
     def set_cle_partagee(self, cle_partagee: int) -> None:
         """Set la clé qui à été envoyé par l'autre personne
 
@@ -30,13 +39,13 @@ class Personne:
         Returns:
             int: le int à envoyer à l'autre personne
         """
-        self.cle_a_partagee = self.cle_publique[0]**self.__cle_prive % self.cle_publique[1]
+        self.cle_a_partagee = (self.cle_publique[0]**self.__cle_prive) % self.cle_publique[1]
         return self.cle_a_partagee
 
     def genere_cle(self) -> int:
         """Génère la clé partagée
         """
-        self.__cle = self.cle_partagee**self.__cle_prive % self.cle_publique[1]
+        self.__cle = (self.cle_partagee**self.__cle_prive) % self.cle_publique[1]
 
     def get_cle(self) -> int:
         """Renvoie la clé partagée par l'autre personne

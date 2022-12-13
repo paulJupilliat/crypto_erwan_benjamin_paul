@@ -62,6 +62,15 @@ def brut_force_diffie_hellman(message: str, len_cle_a: int, Ax: int, len_cle_b: 
     print(f"Ax = {Ax} g={g} a={a} p={p} == ")
     return a, b
 
+def test_brute_force(len_cle_a: int, Ay: int, len_cle_b: int, By: int, p: int, g: int):
+    for ind in range(1,p):
+        if Ay == g**ind%p:
+            return ind
+    return (-1,0)
+
+# Ay = pow(10,15,37)
+# print(pow(10,3,37))
+# print(test_brute_force(2,Ay,2,23,37,10))
 
 # def brut_force_diffie_hellman_encode(message: str, len_cle: int) -> tuple[str, int]:
 #     """Brut force diffie hellman en connaissant la longueur de la clé

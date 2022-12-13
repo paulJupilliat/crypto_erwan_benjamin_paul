@@ -1,7 +1,7 @@
 from math import sqrt
 from random import randint
 from Personne import Personne
-from brut_force import brut_force_diffie_hellman
+from brut_force import brut_force_diffie_hellman, test_brute_force
 
 
 def est_premier(n):
@@ -51,17 +51,17 @@ def diffie_hellman_generation_cle():
     personne2.set_cle_publique((g, p))
 
     # Génère et échange les clés
-    Xa = personne1.genere_echange()
-    Yb = personne2.genere_echange()
-    personne1.set_cle_partagee(Yb)
-    personne2.set_cle_partagee(Xa)
+    Ay = personne1.genere_echange()
+    By = personne2.genere_echange()
+    personne1.set_cle_partagee(By)
+    personne2.set_cle_partagee(Ay)
 
     # Calcul de la clé partagée
     personne1.genere_cle()
     personne2.genere_cle()
     
     # retourne les personnes pour les utiliser 
-    return personne1, personne2, Xa, Yb
+    return personne1, personne2, Ay, By
 
 if __name__ == "__main__":
     print("╒" + "═" * 50 + "╕")
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     choix = input("Choix: ")
     if choix == "1":
         print("╒" + "═" * 50 + "╕")
-        personne1, personne2, _, _ = diffie_hellman_generation_cle()
+        personne1, personne2, _, Bx = diffie_hellman_generation_cle()
         personne3, personne4, _, _ = diffie_hellman_generation_cle()
         message = "Bonjour ceci est un test de la crypto Diffie Hellman !"
         message_chiffre = personne1.envoie_message(message)
@@ -87,8 +87,13 @@ if __name__ == "__main__":
         print(f"La deuxième personne envoie: {message_chiffre_2}")
         print(f"La première personne la décrypte: {message_dechiffre_2}")
         print(f"La troisième personne essaie de décrypter: {personne3.recoit_message(message_chiffre_2)}")
-
-        print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(message_chiffre, personne1.len_cle_pvr(), personne1.get_cle_a_partage(), personne2.len_cle(), personne2.get_cle_a_partage(), personne1.get_cle_publique()[0], personne1.get_cle_publique()[1] )}")
+        personne4.set_cle_publique(personne1.get_cle_publique())
+        print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {test_brute_force(personne1.len_cle_pvr(), personne1.get_cle_a_partage(), personne2.len_cle(), personne2.get_cle_a_partage(), personne1.get_cle_publique()[0], personne1.get_cle_publique()[1] )}")
+        personne4.set_cle_publique(personne1.get_cle_publique())
+        personne4.set_cle_prive(test_brute_force(personne1.len_cle_pvr(), personne1.get_cle_a_partage(), personne2.len_cle(), personne2.get_cle_a_partage(), personne1.get_cle_publique()[0], personne1.get_cle_publique()[1] ))
+        personne4.set_cle_partagee(Bx)
+        personne4.genere_cle()
+        print(personne4.recoit_message(message_chiffre_2))
         print(f" cle pvr{personne1.get_cle_pvr()}, {personne2.get_cle_pvr()}")
         print(f"personne1 {personne1.get_cle_a_partage()} personne2 {personne2.get_cle_a_partage()}")
         print("╘" + "═" * 50 + "╛")
