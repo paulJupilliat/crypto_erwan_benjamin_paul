@@ -505,3 +505,4 @@ def auto_decode(texte : str) -> tuple[str, str]:
         else:
             return ("codé avec vignère", decryptage_vignere_sans_cle(texte))
 
+print(calculer_PGCD(319, 937))

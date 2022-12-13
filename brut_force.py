@@ -1,10 +1,12 @@
 # Fonction qui brut force diffie helman:
 from Chrono import Chronometre
+from affinne import calculer_PGCD
 from fonction import est_francais_simple
 # from diffie_hellman import diffie_hellman_generation_cle
 
+
 def brut_force_diffie_hellman_v1(message: str, len_cle: int) -> tuple[str, int]:
-    """Brut force diffie hellman en connaissant la longueur de la clé
+    """Brut force diffie hellman en connaissant la longueur de la clé si message codé avec césar
     Args:
         message (str): le message à décoder
         len_cle (int): la longueur de la clé
@@ -23,7 +25,8 @@ def brut_force_diffie_hellman_v1(message: str, len_cle: int) -> tuple[str, int]:
             return message_decode, i
     return "pas trouvé"
 
-def brut_force_diffie_hellman(message: str, len_cle_a: int, Ax: int, len_cle_b: int, By: int, p:int, g: int ) -> tuple[str, int]:
+
+def brut_force_diffie_hellman(message: str, len_cle_a: int, Ax: int, len_cle_b: int, By: int, p: int, g: int) -> tuple[str, int]:
     """Trouve le clé secrète des deux poersonnes
     Args:
         message (str): le message à décoder
@@ -42,11 +45,11 @@ def brut_force_diffie_hellman(message: str, len_cle_a: int, Ax: int, len_cle_b: 
     # Cherche à avoir la clé secrète de la personne 1
     a = None
     b = None
-    len_plus_g = max([len_cle_a, len_cle_b]) # Prend la clé la plus grande
+    len_plus_g = max([len_cle_a, len_cle_b])  # Prend la clé la plus grande
     plus_g_nb = int("9"*len_plus_g)
     for ind in range(0, plus_g_nb):
         val_obtenu = pow(g, ind, p)
-        if len_cle_a < ind and  val_obtenu == Ax:
+        if len_cle_a < ind and val_obtenu == Ax and calculer_PGCD(Ax, ind) == 1:
             a = ind
             if b != None:
                 break
@@ -101,4 +104,3 @@ def brut_force_diffie_hellman(message: str, len_cle_a: int, Ax: int, len_cle_b: 
 #     for elmt in possibility1:
 #         if elmt in possibility2:
 #             return elmt, possibility2[elmt]
-
