@@ -97,7 +97,7 @@ if __name__ == "__main__":
         print(f"personne1 {personne1.get_cle_a_partage()} personne2 {personne2.get_cle_a_partage()}")
         print("╘" + "═" * 50 + "╛")
     elif choix == "2":
-        personne1, personne2 = diffie_hellman_generation_cle()
+        personne1, personne2, _, _ = diffie_hellman_generation_cle()
         message = input("Message à envoyer: ")
         message_chiffre = personne1.envoie_message(message)
         print(f"La première personne envoie: {message_chiffre}")
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         print("╘" + "═" * 50 + "╛")
         choix = input("Choix: ")
         if choix == "1":
-            print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(message_chiffre, personne1.len_cle())}")
+            print(f"La troisième personne essaye de brut force car elle connait la longeur de la clé: {brut_force_diffie_hellman(personne1.len_cle_pvr(), personne1.get_cle_a_partage(), personne2.len_cle(), personne2.get_cle_a_partage(), personne1.get_cle_publique()[0], personne1.get_cle_publique()[1] )}")
         elif choix == "2":
             exit()
         else:
