@@ -98,9 +98,9 @@ class Personne:
     def get_cle_publique(self) ->tuple[int, int]:
         """Renvoie la clé publique
         Return:
-            int, int: p, q
+            int, int: q, p
         """
-        return self.cle_publique[1], self.cle_publique[0]
+        return (self.cle_publique[0], self.cle_publique[1])
     
     def get_cle_pvr(self):
         """Renvoie la clé secrète de la personne

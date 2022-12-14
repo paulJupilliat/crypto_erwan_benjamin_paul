@@ -66,7 +66,7 @@ def test_brute_force(len_cle_a: int, Ay: int, len_cle_b: int, By: int, p: int, g
     for ind in range(1,p):
         if Ay == g**ind%p:
             return ind
-    return (-1,0)
+    return -1
 
 # Ay = pow(10,15,37)
 # print(pow(10,3,37))
