@@ -15,12 +15,12 @@
 ## 📝 Table of Contents
 
 - [📝 Table of Contents](#-table-of-contents)
-- [🧐 About <a name = "about"></a>](#-about-)
-- [🏁 Getting Started <a name = "getting_started"></a>](#-getting-started-)
+- [🧐 About ](#-about-)
+- [🏁 Getting Started ](#-getting-started-)
   - [Prerequisites](#prerequisites)
-- [🎈 Plus d'informations sur la méthodologie <a name="usage"></a>](#-plus-dinformations-sur-la-méthodologie-)
-- [⛏️ Built Using <a name = "built_using"></a>](#️-built-using-)
-- [✍️ Authors <a name = "authors"></a>](#️-authors-)
+- [🎈 Plus d'informations sur la méthodologie ](#-plus-dinformations-sur-la-méthodologie-)
+- [⛏️ Built Using ](#️-built-using-)
+- [✍️ Authors ](#️-authors-)
 
 ## 🧐 About <a name = "about"></a>
 Rendu du défi 1 de la sae crypto de l'iut d'Orléans. Il permet de décypter des messages codé avec des anciennes méthodes
@@ -29,6 +29,8 @@ Rendu du défi 1 de la sae crypto de l'iut d'Orléans. Il permet de décypter de
 
 Pour tester le décryptages des textes, il faut lancer le fichier main.py avec python et suivre les instruction écrite dans le terminal.
 ATTENTION: Certains décryptage peuvent prendre du temps.
+
+Pour tester diffie-hellman, il faut lancer le fichier diffie_hellman.py avec python et suivre les instruction écrite dans le terminal.
 
 ### Prerequisites
 

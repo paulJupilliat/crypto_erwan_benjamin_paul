@@ -21,6 +21,10 @@ G un groupe cyclique d'ordre *n* engendré par *g*. Tous *x* ∈ G peut s'écrir
 Si G est un groupe de point appartenant à une courbe élliptique(courbe non singulière), sur un corp fini, le meilleur algorithme pour calculer le logarythme discret 
 est le pgcd étendu.
 
+En résumé le logarythme discret permet de retrouver x dans une équation du type:  
+    <span style="color: red"> a<sup>x</sup> = b mod p</span>
+    
+
 Il est la base de tous les moyens de cryptage à clé publique aujourd'hui utilisé. 
 
 ## Ex1
