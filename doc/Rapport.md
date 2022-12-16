@@ -10,6 +10,8 @@
     - [Vulnérabilité](#vulnérabilité)
       - [Man in the middle](#man-in-the-middle)
       - [Meet in the middle](#meet-in-the-middle)
+        - [Baby step giant step](#baby-step-giant-step)
+          - [Algorithme](#algorithme)
 
 ## Algorithme discret
 ### Définition
@@ -81,8 +83,16 @@ si on a la valeur de g, p et g<sup>a mod p</sup> on ne peut pas trouver la valeu
 ------
 
 #### Meet in the middle
-C = encode(encode(message))
-P = decode(decode(C))
+<img src="img/../../img/schema%20meet%20in%20the%20middle.png">
+Meet int the middle est une attaque qui consiste à chercher les deux clés secrètes en même temps.   
+Deux tableau sont construit: 
+- un avec le calcul avec la clé secrète de Pers1
+- un avec le calcul avec la clé secrète de Pers2 
+Une fois ces deux tableaux construit, on cherche l'intersection et on trouve la clé secrète.
 
-On va brut force C et P en même temps. Lorsque l'on trouvera une clé identique, on aura trouvé la bonne clé.
-    
+-------
+
+##### Baby step giant step
+###### Algorithme
+<img src="img/../../img/algo%20baby%20s.png">
+Cette attaque est un algorithme de meet in the middle.

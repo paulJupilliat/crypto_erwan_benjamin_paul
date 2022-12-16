@@ -16,6 +16,7 @@
 
 - [📝 Table of Contents](#-table-of-contents)
 - [🧐 About ](#-about-)
+- [Rapport ](#rapport-)
 - [🏁 Getting Started ](#-getting-started-)
   - [Prerequisites](#prerequisites)
 - [🎈 Plus d'informations sur la méthodologie ](#-plus-dinformations-sur-la-méthodologie-)
@@ -24,6 +25,9 @@
 
 ## 🧐 About <a name = "about"></a>
 Rendu du défi 1 de la sae crypto de l'iut d'Orléans. Il permet de décypter des messages codé avec des anciennes méthodes
+
+## Rapport <a name = "rapport"></a>
+[Cliquez ici](./doc/Rapport.md)
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
